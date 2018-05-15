@@ -3,7 +3,7 @@ package texasholdem
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Matchers}
 
-class RoundTest extends FlatSpec with Matchers with MockitoSugar with BeforeAndAfterAll {
+class RoundTest extends FlatSpec with Matchers with MockitoSugar {
 
   behavior of "round.play"
 

@@ -6,6 +6,8 @@ To edit the code:
 - ./mill-intellij.sh
 - idea .
 
+# Part one
+
 ## General thoughts
 
 - Using Mill for building in the hopes of getting off SBT. It seems pretty nice. No IntelliJ plugin, though, so I have to exit and re-run the `mill-intellij.sh` script every time I change dependencies to regenerate the classpath.
@@ -25,3 +27,16 @@ To edit the code:
 - The definition of Rank feels off to me. Ideally I'd want it to be constrained to the valid set of values but couldn't see an easy way to do that without resorting to enums.
 - Updating nested case classes feels long-winded and boilerlate-y (see Round.dealToPlayers). I should probably look into lenses, maybe? Does that actually reduce boilerplate in this case? Is there a better way to do this?
 - Chaining methods feels clunky; is there a way to do this without composing the functions first and then applying? 
+
+# Part two
+
+## Stuff I'm happy with
+
+- Pattern matching seems like a reasonably clear way to identify the hands
+- I did vaguely think about making poker hands able to match their own cards, which might have led to better/different reuse of behaviour (e.g., a suit-based hand hierarchy, rank-based hand hierarchy, possibly straight flush inheriting from both, full-house inheriting from three-of-a-kind and pair) but ultimately preferred to make the hands pure data and separate from the matching
+- Testing feels okay-ish. The ordering function is tested as a by-product of the other tests, but I think it's okay. Obvious testing holes are that I haven't tested the human-readable names, and I haven't tested total draws. I'd probably want to at least test the latter if this was for real.
+
+## Stuff I'm less happy with
+
+- I'm resorting to a hand-entered integer value to control hand ranks. It feels like maybe this should be an enumeration.
+- Either's compose oddly. Not sure if this is really a good use-case for that, or whether I should be doing something else

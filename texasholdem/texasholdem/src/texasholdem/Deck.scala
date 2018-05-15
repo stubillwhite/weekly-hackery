@@ -8,7 +8,7 @@ import scala.util.Random
 object Deck {
 
   type Rank = Int
-  
+
   sealed trait Suit
   
   object Suits {

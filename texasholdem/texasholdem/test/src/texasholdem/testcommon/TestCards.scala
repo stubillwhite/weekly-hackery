@@ -1,0 +1,63 @@
+package texasholdem.testcommon
+
+import texasholdem.Deck.Card
+import texasholdem.Deck.Suits.{Clubs, Diamonds, Hearts, Spades}
+
+trait TestCards {
+
+  val C2 = Card(2, Clubs)
+  val C3 = Card(3, Clubs)
+  val C4 = Card(4, Clubs)
+  val C5 = Card(5, Clubs)
+  val C6 = Card(6, Clubs)
+  val C7 = Card(7, Clubs)
+  val C8 = Card(8, Clubs)
+  val C9 = Card(9, Clubs)
+  val CT = Card(10, Clubs)
+  val CJ = Card(11, Clubs)
+  val CQ = Card(12, Clubs)
+  val CK = Card(13, Clubs)
+  val CA = Card(14, Clubs)
+
+  val D2 = Card(2, Diamonds)
+  val D3 = Card(3, Diamonds)
+  val D4 = Card(4, Diamonds)
+  val D5 = Card(5, Diamonds)
+  val D6 = Card(6, Diamonds)
+  val D7 = Card(7, Diamonds)
+  val D8 = Card(8, Diamonds)
+  val D9 = Card(9, Diamonds)
+  val DT = Card(10, Diamonds)
+  val DJ = Card(11, Diamonds)
+  val DQ = Card(12, Diamonds)
+  val DK = Card(13, Diamonds)
+  val DA = Card(14, Diamonds)
+
+  val S2 = Card(2, Spades)
+  val S3 = Card(3, Spades)
+  val S4 = Card(4, Spades)
+  val S5 = Card(5, Spades)
+  val S6 = Card(6, Spades)
+  val S7 = Card(7, Spades)
+  val S8 = Card(8, Spades)
+  val S9 = Card(9, Spades)
+  val ST = Card(10, Spades)
+  val SJ = Card(11, Spades)
+  val SQ = Card(12, Spades)
+  val SK = Card(13, Spades)
+  val SA = Card(14, Spades)
+
+  val H2 = Card(2, Hearts)
+  val H3 = Card(3, Hearts)
+  val H4 = Card(4, Hearts)
+  val H5 = Card(5, Hearts)
+  val H6 = Card(6, Hearts)
+  val H7 = Card(7, Hearts)
+  val H8 = Card(8, Hearts)
+  val H9 = Card(9, Hearts)
+  val HT = Card(10, Hearts)
+  val HJ = Card(11, Hearts)
+  val HQ = Card(12, Hearts)
+  val HK = Card(13, Hearts)
+  val HA = Card(14, Hearts)
+}
