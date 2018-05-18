@@ -18,23 +18,7 @@ object Deck {
     case object Spades extends Suit
   }
   
-  case class Card(rank: Rank, suit: Suit) {
-  
-    import Suits._
-  
-    override def toString: String = {
-      val rankSymbol = "2,3,4,5,6,7,8,9,10,J,Q,K,A".split(',')(rank - 2)
-  
-      val suitSymbol = suit match {
-        case Clubs => "\u2663"
-        case Diamonds => "\u2666"
-        case Hearts => "\u2665"
-        case Spades => "\u2664"
-      }
-  
-      rankSymbol + suitSymbol
-    }
-  }
+  case class Card(rank: Rank, suit: Suit)
 
   def apply(): Deck = {
     val cards = for {suit <- List(Clubs, Diamonds, Hearts, Spades)

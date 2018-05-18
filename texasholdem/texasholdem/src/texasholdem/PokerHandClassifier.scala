@@ -18,17 +18,12 @@ object PokerHandClassifier {
     /**
       * The ranks of the cards which play a part in tie-breaking when comparing this PokerHand to another PokerHand with the same handRank.
       */
-    val tieBreakers: List[Rank]
-
-    /**
-      * A human readable name for the hand.
-      */
-    val name: String
+    val cardRanks: List[Rank]
 
     override def compare(that: PokerHand): Int = {
       that.handRank.compareTo(this.handRank) match {
         case 0 =>
-          compareCardRanks(that.tieBreakers, this.tieBreakers)
+          compareCardRanks(that.cardRanks, this.cardRanks)
         case x =>
           x
       }
@@ -53,53 +48,43 @@ object PokerHandClassifier {
   object PokerHands {
 
     case class RoyalFlush(suit: Suit) extends PokerHandBase(10) {
-      override val tieBreakers: List[Rank] = Nil
-      override val name: String = s"Royal flush (${suit})"
+      override val cardRanks: List[Rank] = Nil
     }
 
     case class StraightFlush(suit: Suit, highCard: Int) extends PokerHandBase(9) {
-      override val tieBreakers: List[Rank] = highCard :: Nil
-      override val name: String = s"Straight flush, ${highCard} high"
+      override val cardRanks: List[Rank] = highCard :: Nil
     }
 
     case class FourOfAKind(rank: Rank) extends PokerHandBase(8) {
-      override val tieBreakers: List[Rank] = rank :: Nil
-      override val name: String = s"Four of kind, ${rank}s"
+      override val cardRanks: List[Rank] = rank :: Nil
     }
 
     case class FullHouse(threeOfAKindRank: Rank, pairRank: Rank) extends PokerHandBase(7) {
-      override val tieBreakers: List[Rank] = threeOfAKindRank :: pairRank :: Nil
-      override val name: String = s"Full house (${threeOfAKindRank}s over ${pairRank}s)"
+      override val cardRanks: List[Rank] = threeOfAKindRank :: pairRank :: Nil
     }
 
     case class Flush(suit: Suit, kickers: List[Rank]) extends PokerHandBase(6) {
-      override val tieBreakers: List[Rank] = kickers
-      override val name: String = s"${suit} flush (${kickers.mkString(", ")}"
+      override val cardRanks: List[Rank] = kickers
     }
 
     case class Straight(highCard: Rank) extends PokerHandBase(5) {
-      override val tieBreakers: List[Rank] = highCard :: Nil
-      override val name: String = s"Straight (${highCard} high)"
+      override val cardRanks: List[Rank] = highCard :: Nil
     }
 
     case class ThreeOfAKind(rank: Rank, kickers: List[Rank]) extends PokerHandBase(4) {
-      override val tieBreakers: List[Rank] = rank :: kickers
-      override val name: String = s"Three of a kind (${rank}s)"
+      override val cardRanks: List[Rank] = rank :: kickers
     }
 
     case class TwoPair(highRank: Rank, lowRank: Rank, kickers: List[Rank]) extends PokerHandBase(3) {
-      override val tieBreakers: List[Rank] = highRank :: lowRank :: kickers
-      override val name: String = s"Two pair (${highRank}s and ${lowRank}s)"
+      override val cardRanks: List[Rank] = highRank :: lowRank :: kickers
     }
 
     case class Pair(rank: Rank, kickers: List[Rank]) extends PokerHandBase(2) {
-      override val tieBreakers: List[Rank] = rank :: kickers
-      override val name: String = s"Pair of ${rank}s"
+      override val cardRanks: List[Rank] = rank :: kickers
     }
 
     case class HighCard(kickers: List[Rank]) extends PokerHandBase(1) {
-      override val tieBreakers: List[Rank] = kickers
-      override val name: String = s"High card (${kickers.mkString(", ")})"
+      override val cardRanks: List[Rank] = kickers
     }
   }
 
