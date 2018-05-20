@@ -1,8 +1,8 @@
-package texasholdem
+package texasholdem.internal
 
-import texasholdem.CombinatorialUtils._
-import texasholdem.Deck.Card
-import texasholdem.PokerHandClassifier.{PokerHand, classifyHand}
+import texasholdem.internal.CombinatorialUtils._
+import texasholdem.internal.Deck.Card
+import texasholdem.internal.PokerHandClassifier.{PokerHand, classifyHand}
 
 object Round {
   def apply(players: List[Player]): Round =

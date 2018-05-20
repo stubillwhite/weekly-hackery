@@ -1,4 +1,4 @@
-package texasholdem
+package texasholdem.internal
 
 object CombinatorialUtils {
 

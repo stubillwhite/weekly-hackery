@@ -1,7 +1,7 @@
-package texasholdem
+package texasholdem.internal
 
-import texasholdem.Deck.Card
-import texasholdem.PokerHandClassifier.PokerHand
+import texasholdem.internal.Deck.Card
+import texasholdem.internal.PokerHandClassifier.PokerHand
 
 case class Player(id: String,
                   holeCards: List[Card] = List(),

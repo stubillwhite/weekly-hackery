@@ -1,4 +1,4 @@
-package texasholdem
+package texasholdem.internal
 
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Matchers}

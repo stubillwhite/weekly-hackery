@@ -1,7 +1,7 @@
-package texasholdem
+package texasholdem.internal
 
-import texasholdem.Deck.Card
-import texasholdem.Deck.Suits.{Clubs, Diamonds, Hearts, Spades}
+import texasholdem.internal.Deck.Card
+import texasholdem.internal.Deck.Suits.{Clubs, Diamonds, Hearts, Spades}
 
 import scala.util.Random
 

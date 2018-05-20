@@ -1,9 +1,8 @@
-// build.sc
 import mill._
 import mill.scalalib._
 import mill.scalalib
 
-object texasholdem extends ScalaModule {
+object WeeklyHackery extends ScalaModule {
   def scalaVersion = "2.11.7"
 
   object test extends Tests{

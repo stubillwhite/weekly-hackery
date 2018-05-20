@@ -1,8 +1,8 @@
-package texasholdem
+package texasholdem.internal
 
-import texasholdem.Deck.{Card, Rank, Suits}
-import texasholdem.PokerHandClassifier.PokerHand
-import texasholdem.PokerHandClassifier.PokerHands._
+import texasholdem.internal.Deck.{Card, Rank, Suits}
+import texasholdem.internal.PokerHandClassifier.PokerHand
+import texasholdem.internal.PokerHandClassifier.PokerHands._
 
 object Display {
 

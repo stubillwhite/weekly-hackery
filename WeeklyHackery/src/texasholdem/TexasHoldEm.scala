@@ -1,5 +1,7 @@
-import texasholdem.Display.displayState
-import texasholdem.{Player, Round}
+package texasholdem
+
+import texasholdem.internal.Display.displayState
+import texasholdem.internal.{Player, Round}
 
 object TexasHoldEm {
 

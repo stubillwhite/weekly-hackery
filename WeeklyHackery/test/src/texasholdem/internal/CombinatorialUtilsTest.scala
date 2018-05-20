@@ -1,8 +1,8 @@
-package texasholdem
+package texasholdem.internal
 
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import texasholdem.CombinatorialUtils._
+import texasholdem.internal.CombinatorialUtils._
 
 class CombinatorialUtilsTest extends FlatSpec with Matchers with MockitoSugar {
 

@@ -1,12 +1,12 @@
-package texasholdem
+package texasholdem.internal
 
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import texasholdem.Deck.Card
-import texasholdem.Deck.Suits._
-import texasholdem.PokerHandClassifier.PokerHands._
-import texasholdem.PokerHandClassifier.classifyHand
-import texasholdem.testcommon.TestCards
+import texasholdem.internal.Deck.Card
+import texasholdem.internal.Deck.Suits._
+import texasholdem.internal.PokerHandClassifier.PokerHands._
+import texasholdem.internal.PokerHandClassifier.classifyHand
+import texasholdem.internal.testcommon.TestCards
 
 import scala.util.Random.shuffle
 

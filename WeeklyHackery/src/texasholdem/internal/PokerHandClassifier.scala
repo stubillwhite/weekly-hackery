@@ -1,6 +1,6 @@
-package texasholdem
+package texasholdem.internal
 
-import texasholdem.Deck.{Card, Rank, Suit}
+import texasholdem.internal.Deck.{Card, Rank, Suit}
 
 import scala.annotation.tailrec
 
