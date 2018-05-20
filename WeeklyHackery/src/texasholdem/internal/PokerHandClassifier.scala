@@ -42,48 +42,55 @@ object PokerHandClassifier {
     }
   }
 
-  abstract class PokerHandBase(val handRank: Int) extends PokerHand {
-  }
-
   object PokerHands {
 
-    case class RoyalFlush(suit: Suit) extends PokerHandBase(10) {
+    case class RoyalFlush(suit: Suit) extends PokerHand {
+      override val handRank: Int = 10
       override val cardRanks: List[Rank] = Nil
     }
 
-    case class StraightFlush(suit: Suit, highCard: Int) extends PokerHandBase(9) {
+    case class StraightFlush(suit: Suit, highCard: Int) extends PokerHand {
+      override val handRank: Int = 9
       override val cardRanks: List[Rank] = highCard :: Nil
     }
 
-    case class FourOfAKind(rank: Rank) extends PokerHandBase(8) {
+    case class FourOfAKind(rank: Rank) extends PokerHand {
+      override val handRank: Int = 8
       override val cardRanks: List[Rank] = rank :: Nil
     }
 
-    case class FullHouse(threeOfAKindRank: Rank, pairRank: Rank) extends PokerHandBase(7) {
+    case class FullHouse(threeOfAKindRank: Rank, pairRank: Rank) extends PokerHand {
+      override val handRank: Int = 7
       override val cardRanks: List[Rank] = threeOfAKindRank :: pairRank :: Nil
     }
 
-    case class Flush(suit: Suit, kickers: List[Rank]) extends PokerHandBase(6) {
+    case class Flush(suit: Suit, kickers: List[Rank]) extends PokerHand {
+      override val handRank: Int = 6
       override val cardRanks: List[Rank] = kickers
     }
 
-    case class Straight(highCard: Rank) extends PokerHandBase(5) {
+    case class Straight(highCard: Rank) extends PokerHand {
+      override val handRank: Int = 5
       override val cardRanks: List[Rank] = highCard :: Nil
     }
 
-    case class ThreeOfAKind(rank: Rank, kickers: List[Rank]) extends PokerHandBase(4) {
+    case class ThreeOfAKind(rank: Rank, kickers: List[Rank]) extends PokerHand {
+      override val handRank: Int = 4
       override val cardRanks: List[Rank] = rank :: kickers
     }
 
-    case class TwoPair(highRank: Rank, lowRank: Rank, kickers: List[Rank]) extends PokerHandBase(3) {
+    case class TwoPair(highRank: Rank, lowRank: Rank, kickers: List[Rank]) extends PokerHand {
+      override val handRank: Int = 3
       override val cardRanks: List[Rank] = highRank :: lowRank :: kickers
     }
 
-    case class Pair(rank: Rank, kickers: List[Rank]) extends PokerHandBase(2) {
+    case class Pair(rank: Rank, kickers: List[Rank]) extends PokerHand {
+      override val handRank: Int = 2
       override val cardRanks: List[Rank] = rank :: kickers
     }
 
-    case class HighCard(kickers: List[Rank]) extends PokerHandBase(1) {
+    case class HighCard(kickers: List[Rank]) extends PokerHand {
+      override val handRank: Int = 1
       override val cardRanks: List[Rank] = kickers
     }
   }
