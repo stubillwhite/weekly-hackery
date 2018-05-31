@@ -78,7 +78,7 @@ class MarkovTextGenerator(model: MarkovModel,
   }
 
   private def randomTransitionFrom(weightedTransitions: WeightedTransitions): Transition = {
-    val rnd = randomNumberProvider.nextInt(weightedTransitions.values.sum + 1)
+    val rnd = randomNumberProvider.nextInt(weightedTransitions.values.sum) + 1
 
     @tailrec
     def randomTransitionFromIter(runningWeight: Int, remainingWeightedTransitions: WeightedTransitions): Transition = {

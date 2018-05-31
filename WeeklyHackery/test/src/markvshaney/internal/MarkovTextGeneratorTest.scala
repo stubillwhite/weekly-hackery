@@ -6,14 +6,6 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class MarkovTextGeneratorTest extends FlatSpec with Matchers with MockitoSugar {
 
-  private val stubMaxRandomNumberProvider: RandomNumberProvider = new RandomNumberProvider {
-    override def nextInt(n: Int): Int = n - 1
-  }
-
-  private val stubMinRandomNumberProvider: RandomNumberProvider = new RandomNumberProvider {
-    override def nextInt(n: Int): Int = 0
-  }
-
   behavior of "generate text"
 
   it should "continue until a termainal state" in {
@@ -32,8 +24,8 @@ class MarkovTextGeneratorTest extends FlatSpec with Matchers with MockitoSugar {
     val inputText = "a b c a b d"
     val startingState = initialState("a b")
 
-    val minGenerator = MarkovTextGenerator(textStream(inputText), 2, stubMinRandomNumberProvider)
-    val maxGenerator = MarkovTextGenerator(textStream(inputText), 2, stubMaxRandomNumberProvider)
+    val minGenerator = MarkovTextGenerator(textStream(inputText), 2, stubRandomNumberProvider(0))
+    val maxGenerator = MarkovTextGenerator(textStream(inputText), 2, stubRandomNumberProvider(1))
 
     // When
     val textForMinPath = minGenerator.generateText(startingState).take(3).mkString(" ")
@@ -49,4 +41,9 @@ class MarkovTextGeneratorTest extends FlatSpec with Matchers with MockitoSugar {
   private def initialState(s: String): State =
     s.split(" ").toList
 
+  private def stubRandomNumberProvider(value: Int): RandomNumberProvider = {
+    new RandomNumberProvider {
+      override def nextInt(n: Int): Int = value
+    }
+  }
 }
