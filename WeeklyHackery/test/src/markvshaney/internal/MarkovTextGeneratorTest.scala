@@ -8,7 +8,7 @@ class MarkovTextGeneratorTest extends FlatSpec with Matchers with MockitoSugar {
 
   behavior of "generate text"
 
-  it should "continue until a termainal state" in {
+  it should "continue until a terminal state" in {
     // Given
     val generator = MarkovTextGenerator(textStream("a b c"))
 

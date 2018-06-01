@@ -19,7 +19,6 @@ object MarkVShaney {
 
   private def sourceText(): TextStream = {
     val lines =
-      readLines("/markvshaney/my-man-jeeves.txt") ++
       readLines("/markvshaney/right-ho-jeeves.txt") ++
         readLines("/markvshaney/the-dunwich-horror.txt")
 
