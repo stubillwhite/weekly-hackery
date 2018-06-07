@@ -15,20 +15,23 @@ class ComputerPlayer(wordList: List[String]) extends Player {
                               guessedLetters: Set[Char],
                               remainingLives: Int): Char = {
 
-    val possibleGuesses = AllLetters.diff(guessedLetters)
+    val remainingLetters = AllLetters.diff(guessedLetters)
+    val incorrectLetters = guessedLetters.diff(word.flatten.toSet)
 
-    // Filter to words with the correct length and known letters, then count the words per letter
-
-    val possibleWordsPerLetter = wordList
+    // Select only words with the correct length, with letters matching known hits, and not containing known misses
+    val possibleWords = wordList
       .filter(x => x.length == word.length)
       .filter(x => matchesKnownLetters(x, word))
-      .flatMap(x => x.toSet.intersect(possibleGuesses))
+      .filter(x => x.toSet.intersect(incorrectLetters).isEmpty)
+
+    // Count the words which each remaining letter occurs in
+    val possibleWordsPerLetter = possibleWords
+      .flatMap(x => x.toSet.intersect(remainingLetters))
       .foldLeft(Map[Char, Int]())((acc, ch) => {
         acc.updated(ch, acc.getOrElse(ch, 0) + 1)
       })
 
     // Best guess is the letter which occurs in the most words
-
     val (ch, n) = possibleWordsPerLetter.maxBy(_._2)
 
     println

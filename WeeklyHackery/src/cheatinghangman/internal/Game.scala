@@ -1,7 +1,5 @@
 package cheatinghangman.internal
 
-import cheatinghangman.internal.Display._
-
 case class Game(word: String,
                 candidateWords: List[String],
                 guessedLetters: Set[Char],

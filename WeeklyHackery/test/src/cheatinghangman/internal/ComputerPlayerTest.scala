@@ -27,6 +27,16 @@ class ComputerPlayerTest extends FlatSpec with Matchers with MockitoSugar {
     guess should be ('a')
   }
 
+  it should "consider only words which do not match incorrect guesses" in {
+    // Given
+    val player = ComputerPlayer(List("aaa", "aaa", "xxb", "xxb", "xxb"))
+
+    // When
+    val guess = player.guessCharacter(word("- - -"), "x".toSet, 10)
+
+    guess should be ('a')
+  }
+
   it should "guess the letter occurring in the most words ignoring repetition within the word" in {
     // Given
     val player = ComputerPlayer(List("abc", "ade", "axx", "xxx"))
