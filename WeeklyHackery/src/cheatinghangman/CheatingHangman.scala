@@ -24,10 +24,9 @@ object CheatingHangman {
 
   @tailrec
   private def playGame(game: Game): Unit = {
-    if (game.isWon || game.isLost) {
-      display(game)
-    }
-    else {
+    display(game)
+
+    if (!game.isWon && !game.isLost) {
       playGame(game.playRound())
     }
   }

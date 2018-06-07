@@ -21,8 +21,6 @@ case class Game(word: String,
 
   def playRound(): Game = {
 
-    display(this)
-
     val guess = player.guessCharacter(knownLetters, guessedLetters, remainingLives)
     val newCandidateWords = candidateWords.filterNot {_.contains(guess)}
     val newGuessedLetters = guessedLetters + guess
