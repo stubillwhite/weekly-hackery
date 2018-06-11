@@ -17,7 +17,7 @@ class BowlingKataTest extends FlatSpec with Matchers with MockitoSugar {
   }
 
   it should "score a frame with some pins left standing correctly" in {
-    scoreGame(List(5, 4)) should be(9)
+    scoreGame(List(5, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) should be(9)
   }
 
   it should "score a frame with a spare correctly" in {
