@@ -16,13 +16,14 @@ object BowlingKata {
         score
       }
       else {
+        val nextFrame = frame + 1
         rolls match {
           case Nil => score
           case a :: Nil => score + a
 
-          case a :: rest if a == 10 => scoreIter(frame + 1, score + 10 + rest.take(2).sum, rest)
-          case a :: b :: rest if a + b == 10 => scoreIter(frame + 1, score + 10 + rest.take(1).sum, rest)
-          case a :: b :: rest => scoreIter(frame + 1, score + a + b, rest)
+          case 10 :: rest => scoreIter(nextFrame, score + 10 + rest.take(2).sum, rest)
+          case a :: b :: rest if a + b == 10 => scoreIter(nextFrame, score + 10 + rest.take(1).sum, rest)
+          case a :: b :: rest => scoreIter(nextFrame, score + a + b, rest)
         }
       }
     }
