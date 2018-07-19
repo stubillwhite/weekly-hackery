@@ -1,6 +1,5 @@
 package minesweeper
 
-import mastermind.internal.Domain.{Code, CodePeg, Color}
 import minesweeper.internal.Domain.Point
 import minesweeper.internal.Game
 
