@@ -1,7 +1,5 @@
 package projecteuler
 
-import projecteuler.Problem007.isPrime
-
 import scala.annotation.tailrec
 
 object Problem010 {
