@@ -1,8 +1,7 @@
-package rhymingdictionary
+package rhymingdictionary.internal
 
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import rhymingdictionary.internal.CMURhymingDictionary
 
 class RhymingDictionaryTest extends FlatSpec with Matchers with MockitoSugar {
 
@@ -79,6 +78,17 @@ class RhymingDictionaryTest extends FlatSpec with Matchers with MockitoSugar {
     val dictionary = dictionaryWithWords(
       "FOOT F UH2 T",
       "GOOT G UH1 T"
+    )
+
+    // When, Then
+    dictionary.wordsRhymingWith("FOOT") should be(List("FOOT"))
+  }
+
+  it should "ignore words which differ on the final vowel stress by being unstressed" in {
+    // Given
+    val dictionary = dictionaryWithWords(
+      "FOOT F UH2 T",
+      "GOOT G UH T"
     )
 
     // When, Then
