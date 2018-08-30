@@ -5,6 +5,8 @@ import mill.scalalib
 object WeeklyHackery extends ScalaModule {
   def scalaVersion = "2.11.7"
 
+  def mainClass = Some("labyrinthsareawesome.LabyrinthsAreAwesome")
+
   def ivyDeps = Agg(
     ivy"org.apache.commons:commons-text:1.3"
   )
