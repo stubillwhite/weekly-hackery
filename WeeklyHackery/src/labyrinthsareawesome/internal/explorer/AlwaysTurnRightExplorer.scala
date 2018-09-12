@@ -18,11 +18,10 @@ class AlwaysTurnRightExplorer(labyrinth: Labyrinth) {
 
     val displayFunction = if (displayProgress) displayStateAndPause else noOperation
 
-    val finalState =
-      Stream.iterate(initialState)(nextState)
-        .map(displayFunction)
-        .dropWhile(_.isComplete == false)
-        .head
+    Stream.iterate(initialState)(nextState)
+      .map(displayFunction)
+      .dropWhile(_.isComplete == false)
+      .head
   }
 
   private val displayStateAndPause: (State) => State = (state: State) => {
@@ -114,7 +113,6 @@ class AlwaysTurnRightExplorer(labyrinth: Labyrinth) {
     val newLocation = state.rotateRight().moveForward().location
     state.roomsAccessibleFromCurrentRoom().contains(newLocation)
   }
-
 
   private def canMoveForward(state: State): Boolean = {
     val newLocation = state.moveForward().location

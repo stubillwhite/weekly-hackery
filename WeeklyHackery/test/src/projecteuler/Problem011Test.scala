@@ -28,13 +28,7 @@ class Problem011Test extends FlatSpec with Matchers with MockitoSugar {
   behavior of "allAdjacentValues"
 
   it should "generate windows for all adjacent values" in {
-    // Given
-    val coords = for {
-      x <- 0 to 2
-      y <- 0 to 2
-    } yield (x, y)
-
-    // When
+    // Given, When
     val indexedGrid = IndexedGrid.fromString(3, 3, testGrid)
     val allAdjacent = indexedGrid.allAdjacentValues(3)
 

@@ -9,8 +9,6 @@ import scala.annotation.tailrec
 
 object Mastermind {
 
-  private val fullyCorrect = Feedback(FullyCorrect, FullyCorrect, FullyCorrect, FullyCorrect)
-
   def main(args: Array[String]): Unit = {
     val codeMaker = CodeMaker()
     val codeBreaker = new HumanCodeBreaker()
