@@ -29,7 +29,7 @@ object RecursiveBacktracker {
   }
 
   private val displayStateAndPause: (State) => State = (state: State) => {
-    val characterDisplay = LabyrinthRenderer.render(toLabyrinth(state))
+    val characterDisplay = LabyrinthRenderer(toLabyrinth(state)).toCharacterDisplay()
     println(characterDisplay.render() + s"\033[${characterDisplay.height}A")
     Thread.sleep(25)
     state
