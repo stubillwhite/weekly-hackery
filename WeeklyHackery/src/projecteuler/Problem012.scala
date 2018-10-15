@@ -4,7 +4,7 @@ import java.lang.Math.{floor, sqrt}
 
 object Problem012 {
 
-  def triangularNumbers: Stream[Long] = Stream.iterate((1L, 2L))({ case (a, b) => (a+b, b+1) } ).map(_._1)
+  def triangularNumbers: Stream[Long] = Stream.iterate((1L, 2L))({ case (a, b) => (a+b, b+1) }).map(_._1)
 
   def divisors(n: Long): Set[Long] = {
     val limit = floor(sqrt(n.toDouble)).toLong + 1
