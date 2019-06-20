@@ -1,11 +1,14 @@
 package sudoku.internal
 
-import sudoku.internal.Puzzle.{Cell, Coordinate}
+import sudoku.internal.Puzzle.{CellValue, Coordinate}
 
 object CellAccessor {
 
   val rowGroups: Seq[Seq[Coordinate]] =
-    Puzzle.coordinates.grouped(9).toSeq
+    (for {
+      y <- 1 to 9
+      x <- 1 to 9
+    } yield Coordinate(x, y)).grouped(9).toSeq
 
   val columnGroups: Seq[Seq[Coordinate]] =
     (for {
@@ -29,7 +32,7 @@ object CellAccessor {
 
   def applyToCells(puzzle: Puzzle,
                    coordinates: Seq[Coordinate],
-                   f: Seq[Cell] => Seq[Cell]): Puzzle = {
+                   f: Seq[CellValue] => Seq[CellValue]): Puzzle = {
     val newValues = f(coordinates.map(puzzle.grid(_)))
     val newGrid = coordinates.zip(newValues).foldLeft(puzzle.grid)((acc, x) => acc + x)
     puzzle.copy(grid = newGrid)

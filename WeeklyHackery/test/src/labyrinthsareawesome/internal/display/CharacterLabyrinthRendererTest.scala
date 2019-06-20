@@ -52,8 +52,8 @@ class CharacterLabyrinthRendererTest extends FlatSpec with Matchers with Mockito
 
     // When, Then
     display.render() should be(
-      """
-        | 12
+      "   \n" +
+      """ 12
         | 45""".stripMargin)
   }
 
