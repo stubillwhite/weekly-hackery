@@ -11,7 +11,7 @@ object WorldCupPrognostication {
 
     val brackets = BinaryTree.fromSeq(teams)
 
-    val n = 100
+    val n = 10
     val results = monteCarlo(n, brackets, teams, strongestTeamProbablyWins)
 
     println("--")

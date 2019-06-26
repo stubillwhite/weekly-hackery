@@ -13,27 +13,23 @@ object WorldCup {
   }
 
   val WOMENS_WORLD_CUP_TEAMS_2019: Seq[Team] = toTeams(List(
-    ("United States", 2101),
-    ("Germany", 2072),
-    ("England", 2049),
-    ("France", 2043),
-    ("Canada", 2006),
-    ("Australia", 2003),
-    ("Japan", 1991),
-    ("Netherlands", 1967),
-    ("Sweden", 1962),
-    ("Brazil", 1944),
-    ("North Korea", 1940),
     ("Norway", 1915),
+    ("Australia", 2003),
+    ("England", 2049),
+    ("Cameroon", 1499),
+    ("France", 2043),
+    ("Brazil", 1944),
     ("Spain", 1913),
-    ("South Korea", 1883),
+    ("USA", 2101),
     ("Italy", 1868),
-    ("China PR", 1866)))
-  //    ("Denmark", 1840),
-  //    ("Switzerland", 1828),
-  //    ("New Zealand", 1815),
-  //    ("Scotland", 1812),
-  //    ("Belgium", 1812)))
+    ("China", 1866),
+    ("Netherlands", 1967),
+    ("Japan", 1991),
+    ("Germany", 2072),
+    ("Nigeria", 1599),
+    ("Sweden", 1962),
+    ("Canada", 2006)
+  ))
 
   type MatchSimulator = (Team, Team) => Team
 
