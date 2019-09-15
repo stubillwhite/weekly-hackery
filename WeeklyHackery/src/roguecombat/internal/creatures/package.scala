@@ -1,28 +1,26 @@
 package roguecombat.internal
 
-import roguecombat.internal.attributes.{CanAttack, Health, HealthUpdater}
+import roguecombat.internal.attributes.Combatant
 
 package object creatures {
 
-  case class Goblin(health: Int = 8,
+  case class Orc(health: Int = 8,
                     maxHealth: Int = 8,
                     attack: Int = 4)
-    extends Health[Goblin]
-      with CanAttack {
+    extends Combatant[Orc] {
+    override protected def withHealth(x: Int): Orc = copy(health = x)
+  }
 
-    override val healthUpdater: HealthUpdater[Goblin] = new HealthUpdater[Goblin] {
-      override def withHealth(x: Int): Goblin = Goblin.this.copy(health = x)
-    }
+  case class Goblin(health: Int = 6,
+                 maxHealth: Int = 6,
+                 attack: Int = 3) extends Combatant[Goblin] {
+    override protected def withHealth(x: Int): Goblin = copy(health = x)
   }
 
   case class Human(health: Int = 20,
                    maxHealth: Int = 20,
                    attack: Int = 6)
-    extends Health[Human]
-      with CanAttack {
-
-    override val healthUpdater: HealthUpdater[Human] = new HealthUpdater[Human] {
-      override def withHealth(x: Int): Human = Human.this.copy(health = x)
-    }
+    extends Combatant[Human] {
+    override protected def withHealth(x: Int): Human = copy(health = x)
   }
 }

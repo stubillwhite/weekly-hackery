@@ -1,28 +1,27 @@
 package roguecombat.internal
 
-import Math.max
+import java.lang.Math.max
 
 package object attributes {
 
-  trait Health[A] {
+  trait HasHealth[A] {
     val health: Int
     val maxHealth: Int
-    val healthUpdater: HealthUpdater[A]
 
     def healCompletely(): A = {
-      healthUpdater.withHealth(maxHealth)
+      withHealth(maxHealth)
     }
 
     def takeDamage(points: Int): A = {
-      healthUpdater.withHealth(max(0, health - points))
+      withHealth(max(0, health - points))
     }
-  }
 
-  trait HealthUpdater[A] {
-    def withHealth(x: Int): A
+    protected def withHealth(x: Int): A
   }
 
   trait CanAttack {
     val attack: Int
   }
+
+  trait Combatant[A] extends HasHealth[A] with CanAttack
 }
