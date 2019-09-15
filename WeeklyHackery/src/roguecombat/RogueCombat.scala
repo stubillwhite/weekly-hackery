@@ -1,8 +1,7 @@
 package roguecombat
 
 import roguecombat.internal.Domain.Game
-import roguecombat.internal.attributes.Health
-import roguecombat.internal.creatures.{Goblin, Human, Porg}
+import roguecombat.internal.creatures.{Goblin, Human}
 
 object RogueCombat {
 
@@ -11,19 +10,18 @@ object RogueCombat {
   }
 
   def nextState(game: Game): Game = {
-    val newMonster = game.monster match {
-      case x: Goblin => x.takeDamage(game.player.attack)
-    }
-    val newGame = game.copy(monster = newMonster)
-    println(newGame)
-    newGame
+   println(game)
+    val Game(player, goblin) = game
+
+    val newGoblin = goblin.takeDamage(player.attack)
+    val newPlayer = player.takeDamage(goblin.attack)
+
+    if (newGoblin.health == 0) game.copy(goblin = newGoblin)
+    else nextState(game.copy(player = newPlayer, goblin = newGoblin))
   }
 
   def main(args: Array[String]): Unit = {
     println(nextState(newGame()))
-    println(Porg(20, 10))
-    println(Porg(20, 10).takeDamage(13))
-    println(Porg(20, 10).takeDamage(13).healCompletely())
     println("Done")
   }
 }

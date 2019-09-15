@@ -1,8 +1,7 @@
 package roguecombat.internal
 
-import roguecombat.internal.attributes._
-import roguecombat.internal.creatures.Human
+import roguecombat.internal.creatures.{Goblin, Human}
 
 object Domain {
-  case class Game(player: Human, monster: Monster)
+  case class Game(player: Human, goblin: Goblin)
 }

@@ -1,11 +1,10 @@
 package roguecombat.internal
 
+import Math.max
+
 package object attributes {
 
-  trait Monster
-
   trait Health[A] {
-    this: A =>
     val health: Int
     val maxHealth: Int
     val healthUpdater: HealthUpdater[A]
@@ -15,7 +14,7 @@ package object attributes {
     }
 
     def takeDamage(points: Int): A = {
-      healthUpdater.withHealth(health - points)
+      healthUpdater.withHealth(max(0, health - points))
     }
   }
 
