@@ -21,6 +21,7 @@ package object attributes {
 
   trait CanAttack {
     val attack: Int
+    val accuracy: Int
   }
 
   trait Combatant[A] extends HasHealth[A] with CanAttack
