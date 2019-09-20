@@ -55,6 +55,16 @@ package object creatures {
       health = x
   }
 
+  class Orc extends Combatant {
+    override val attack: Int = 8
+    override val accuracy: Int = 50
+    override var health: Int = 15
+    override val maxHealth: Int = 15
+
+    override protected def withHealth(x: Int): Unit =
+      health = x
+  }
+
   class Player extends Combatant with Inventory {
     override val attack: Int = 8
     override val accuracy: Int = 75
