@@ -20,7 +20,7 @@ object Roguelike {
 
   def gameLoop(player: Player): Unit = {
     val combat = Combat(player, randomOpponent())
-    println(s"You encounter: ${combat.opponent.getClass.getSimpleName}")
+    println(s"You encounter: ${combat.opponent.longDescription}")
     println("Combat ensues!")
 
     resolveCombat(combat)
@@ -29,21 +29,46 @@ object Roguelike {
       println("You died!")
     }
     else {
+      println(s"You defeated the ${combat.opponent.shortDescription}!")
       lootCorpse(combat.player)
 
       println()
       println(s"Player health: ${player.healthStat()}, loot: ${player.inventory.getOrElse("Gold", 0)} gold")
       println()
-      println("[C]ontinue or [E]xit")
+
+      println("[C]ontinue, [Heal], or [E]xit")
       StdIn.readChar() match {
-        case 'c' => gameLoop(player)
-        case 'e' => println(s"You escaped with ${combat.player.inventory.getOrElse("Gold", 0)} gold")
+        case 'c' => {
+          optionallyHeal(player)
+          gameLoop(player)
+        }
+        case 'e'
+        => println(s"You escaped with ${combat.player.inventory.getOrElse("Gold", 0)} gold")
+      }
+    }
+  }
+
+  private def optionallyHeal(player: Player) = {
+    val potions = player.inventory.getOrElse("Potion of Healing", 0)
+    if (potions > 0) {
+      println(s"You have ${
+        potions
+      } Potion(s) of Healing. Would you like to heal?")
+      println("[Y]es or [N]o")
+      StdIn.readChar() match {
+        case 'y' => {
+          player.healCompletely()
+          player.removeItem("Potion of Healing")
+        }
+        case _ =>
       }
     }
   }
 
   def main(args: Array[String]): Unit = {
-    gameLoop(new Player())
+    val player = new Player()
+    player.addItems("Potion of Healing", 1)
+    gameLoop(player)
     println("Done")
   }
 }

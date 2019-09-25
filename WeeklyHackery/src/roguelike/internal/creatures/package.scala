@@ -35,7 +35,9 @@ package object creatures {
       s"[${health}/${maxHealth}]"
     }
 
-    protected def withHealth(x: Int): Unit
+    protected def withHealth(x: Int): Unit = {
+      health = x
+    }
   }
 
   trait CanAttack {
@@ -43,16 +45,21 @@ package object creatures {
     val accuracy: Int
   }
 
-  trait Combatant extends HasHealth with CanAttack
+  trait HasDescription {
+    val shortDescription: String
+    val longDescription: String
+  }
+
+  trait Combatant extends HasHealth with HasDescription with CanAttack {
+    val shortDescription = s"${getClass.getSimpleName}"
+    lazy val longDescription = s"${getClass.getSimpleName} [${health}/${maxHealth}]"
+  }
 
   class Goblin extends Combatant {
     override val attack: Int = 6
     override val accuracy: Int = 50
     override var health: Int = 10
     override val maxHealth: Int = 10
-
-    override protected def withHealth(x: Int): Unit =
-      health = x
   }
 
   class Orc extends Combatant {
@@ -60,9 +67,6 @@ package object creatures {
     override val accuracy: Int = 50
     override var health: Int = 15
     override val maxHealth: Int = 15
-
-    override protected def withHealth(x: Int): Unit =
-      health = x
   }
 
   class Player extends Combatant with Inventory {
@@ -71,26 +75,19 @@ package object creatures {
     override var health: Int = 25
     override val maxHealth: Int = 25
     override var inventory: Map[String, Int] = Map()
-
-    override protected def withHealth(x: Int): Unit =
-      health = x
-
-
   }
 
   case class Combat(player: Player, opponent: Combatant)
 
   def attack(attacker: Combatant, defender: Combatant): Unit = {
-    val attackerName = attacker.getClass.getSimpleName
-    val defenderName = defender.getClass.getSimpleName
+    val attackerName = attacker.shortDescription
 
     if (Random.nextInt(100) <= attacker.accuracy) {
       defender.takeDamage(attacker.attack)
-      println(s"${attackerName} hits! (${defenderName} ${defender.healthStat()})")
+      println(s"${attackerName} hits!")
     }
     else {
-      println(s"${attackerName} misses! (${defenderName} ${defender.healthStat()})")
-      defender
+      println(s"${attackerName} misses!")
     }
   }
 
