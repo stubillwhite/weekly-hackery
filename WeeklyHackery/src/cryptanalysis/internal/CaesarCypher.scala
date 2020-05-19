@@ -3,15 +3,16 @@ package cryptanalysis.internal
 case class CaesarCypherKey(offset: Int) extends Key
 
 object CaesarCypher {
-  def apply(key: CaesarCypherKey): CaesarCypher = new CaesarCypher(key)
+  def apply(): CaesarCypher = new CaesarCypher()
 }
 
-class CaesarCypher(key: CaesarCypherKey) extends Cypher[CaesarCypherKey] {
-  override def encypher(plaintext: String): String = {
+class CaesarCypher extends Cypher[CaesarCypherKey] {
+
+  override def encypher(key: CaesarCypherKey, plaintext: String): String = {
     plaintext.map(shiftChar(_, key.offset)).mkString
   }
 
-  override def decypher(cyphertext: String): String = {
+  override def decypher(key: CaesarCypherKey, cyphertext: String): String = {
     cyphertext.map(shiftChar(_, -key.offset)).mkString
   }
 

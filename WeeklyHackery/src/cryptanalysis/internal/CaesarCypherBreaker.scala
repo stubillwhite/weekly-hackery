@@ -13,10 +13,11 @@ object CaesarCypherBreaker {
 class CaesarCypherBreaker(languageModel: LanguageModel) extends CypherBreaker[CaesarCypher, CaesarCypherKey] {
 
   override def probableKeys(cyphertext: String): Seq[ProbableKey[CaesarCypherKey]] = {
+    val cypher = CaesarCypher()
+
     val keys = for {
       offset <- 0 to 25
-      cypher = CaesarCypher(CaesarCypherKey(offset))
-      decypheredLanguageModel = LanguageModel(cypher.decypher(cyphertext))
+      decypheredLanguageModel = LanguageModel(cypher.decypher(CaesarCypherKey(offset), cyphertext))
       distance = calculateDistance(languageModel, decypheredLanguageModel)
     } yield ProbableKey(CaesarCypherKey(offset), distance)
 
