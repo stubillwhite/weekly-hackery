@@ -1,29 +1,37 @@
 package cryptanalysis.internal
 
-case class CaesarCypherKey(offset: Int) extends Key
+final case class CaesarCypherKey(offset: Int) extends Key
 
 object CaesarCypher {
-  def apply(): CaesarCypher = new CaesarCypher()
+  def apply(language: Language, key: CaesarCypherKey): CaesarCypher =
+    new CaesarCypher(language, key)
 }
 
-class CaesarCypher extends Cypher[CaesarCypherKey] {
+class CaesarCypher(val language: Language,
+                   val key: CaesarCypherKey) extends Cypher[CaesarCypherKey] {
 
-  override def encypher(key: CaesarCypherKey, plaintext: String): String = {
-    plaintext.map(shiftChar(_, key.offset)).mkString
+  val encypherTable: Map[Char, Char] = createCypherTable(key.offset)
+  val decypherTable: Map[Char, Char] = createCypherTable(-key.offset)
+
+  override def encypher(plaintext: String): String = {
+    language.toLanguage(plaintext)
+      .map(encypherTable)
+      .mkString
   }
 
-  override def decypher(key: CaesarCypherKey, cyphertext: String): String = {
-    cyphertext.map(shiftChar(_, -key.offset)).mkString
+  override def decypher(cyphertext: String): String = {
+    language.toLanguage(cyphertext)
+      .map(decypherTable)
+      .mkString
   }
 
-  private def shiftChar(ch: Char, shiftValue: Int): Char = {
-    if (ch.isLetter) {
-      val startCode = 'a'.toInt
-      val shiftedCode = (ch.toInt - startCode + shiftValue + 26) % 26
-      (startCode + shiftedCode).toChar
-    }
-    else {
-      ch
-    }
+  private def createCypherTable(offset: Int): Map[Char, Char] = {
+    def shifted: Stream[Char] = language.Letters.toStream #::: shifted
+    val size = language.Letters.size
+
+    val letterMappings = language.Letters.zip(shifted.drop((offset + size) % size))
+    val punctuationMappings = language.Punctuation.zip(language.Punctuation)
+
+    (letterMappings ++ punctuationMappings).toMap
   }
 }

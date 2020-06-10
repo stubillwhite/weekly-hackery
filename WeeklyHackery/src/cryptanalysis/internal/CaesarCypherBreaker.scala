@@ -3,30 +3,26 @@ package cryptanalysis.internal
 case class ProbableKey[K <: Key](key: K, distance: Double)
 
 trait CypherBreaker[T <: Cypher[K], K <: Key] {
-  def probableKeys(cyphertext: String): Seq[ProbableKey[K]]
+  def probableKeys(sampletext: String, cyphertext: String): Seq[ProbableKey[K]]
 }
 
 object CaesarCypherBreaker {
-  def apply(languageModel: LanguageModel): CaesarCypherBreaker = new CaesarCypherBreaker(languageModel)
+  def apply(language: Language): CaesarCypherBreaker =
+    new CaesarCypherBreaker(language)
 }
 
-class CaesarCypherBreaker(languageModel: LanguageModel) extends CypherBreaker[CaesarCypher, CaesarCypherKey] {
+class CaesarCypherBreaker(language: Language) extends CypherBreaker[CaesarCypher, CaesarCypherKey] {
 
-  override def probableKeys(cyphertext: String): Seq[ProbableKey[CaesarCypherKey]] = {
-    val cypher = CaesarCypher()
+  override def probableKeys(sampletext: String, cyphertext: String): Seq[ProbableKey[CaesarCypherKey]] = {
+    val sampletextFrequencies = FrequencyDistribution(language, sampletext)
+    val cyphertextFrequencies = FrequencyDistribution(language, cyphertext)
 
     val keys = for {
-      offset <- 0 to 25
-      decypheredLanguageModel = LanguageModel(cypher.decypher(CaesarCypherKey(offset), cyphertext))
-      distance = calculateDistance(languageModel, decypheredLanguageModel)
-    } yield ProbableKey(CaesarCypherKey(offset), distance)
+      offset <- 0 to language.Letters.size
+      rotatedStats = cyphertextFrequencies.rotate(offset)
+      distance = sampletextFrequencies.distance(rotatedStats)
+    } yield ProbableKey(CaesarCypherKey(language.Letters.size - offset), distance)
 
-    keys.sortBy(_.distance)
-  }
-
-  private def calculateDistance(a: LanguageModel, b: LanguageModel): Double = {
-    a.frequencies.keys
-      .map( (k: Char) => Math.pow(a.frequencies.getOrElse(k, 0.0) - b.frequencies.getOrElse(k, 0.0), 2))
-      .sum
+    keys.sortBy(_.distance).reverse
   }
 }
