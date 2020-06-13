@@ -54,8 +54,7 @@ class FrequencyDistribution(language: Language, frequencies: Map[Char, Int], rel
     def chiSquared(k: Char): Double = {
       val observed = other.Frequencies(k)
       val expected = RelativeFrequencies(k) / thisTotal * otherTotal
-      val distance = Math.pow(observed - expected, 2) / expected
-      distance
+      Math.pow(observed - expected, 2) / expected
     }
 
     RelativeFrequencies.keys

@@ -1,11 +1,5 @@
 package cryptanalysis.internal
 
-case class ProbableKey[K <: Key](key: K, distance: Double)
-
-trait CypherBreaker[T <: Cypher[K], K <: Key] {
-  def probableKeys(sampletext: String, cyphertext: String): Seq[ProbableKey[K]]
-}
-
 object CaesarCypherBreaker {
   def apply(language: Language): CaesarCypherBreaker =
     new CaesarCypherBreaker(language)
@@ -23,6 +17,6 @@ class CaesarCypherBreaker(language: Language) extends CypherBreaker[CaesarCypher
       distance = sampletextFrequencies.distance(rotatedStats)
     } yield ProbableKey(CaesarCypherKey(language.Letters.size - offset), distance)
 
-    keys.sortBy(_.distance).reverse
+    keys.sortBy(_.distance)
   }
 }
