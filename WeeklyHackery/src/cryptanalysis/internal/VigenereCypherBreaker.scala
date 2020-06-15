@@ -4,24 +4,64 @@ import java.lang.Math.{floor, sqrt}
 
 object VigenereCypherBreaker {
   def apply(language: Language): VigenereCypherBreaker = new VigenereCypherBreaker(language)
+
+  private[cryptanalysis] def vigenereKeySeq(probableKeys: Seq[Seq[ProbableKey[CaesarCypherKey]]]): Seq[ProbableKey[VigenereCypherKey]] = {
+
+    def makeKey(ks: Seq[Seq[ProbableKey[CaesarCypherKey]]]): ProbableKey[VigenereCypherKey] = {
+      val offsets = ks.map(_.head.key.offset)
+      val totalDistance = ks.map(_.head.distance).sum
+      ProbableKey(VigenereCypherKey(offsets), totalDistance)
+    }
+
+    def nextMostProbableCombination(keys: Seq[Seq[ProbableKey[CaesarCypherKey]]]): Seq[Seq[ProbableKey[CaesarCypherKey]]] = {
+      val remainingPossibilities = keys
+        .zipWithIndex
+        .filter { case (ks, _) => ks.length > 1 }
+
+      if (remainingPossibilities.isEmpty) {
+        Nil
+      }
+      else {
+        val (k, index) = remainingPossibilities.minBy(_._1(1).distance)
+        keys.updated(index, keys(index).tail)
+      }
+    }
+
+    Iterator
+      .iterate(probableKeys)(nextMostProbableCombination)
+      .takeWhile(_ != Nil)
+      .map(makeKey)
+      .toSeq
+  }
+
 }
 
 class VigenereCypherBreaker(language: Language) extends CypherBreaker[VigenereCypher, VigenereCypherKey] {
 
   override def probableKeys(sampletext: String, cyphertext: String): Seq[ProbableKey[VigenereCypherKey]] = {
-    val keyLengthsToTake = 3
-    println(s"Probable key lengths: ${probableKeyLengths(cyphertext).take(keyLengthsToTake)}")
+    val keyLengthsToTake = 4
+    println(s"Probable key lengths ${cyphertext.length}: ${probableKeyLengths(cyphertext).take(keyLengthsToTake)}")
 
     val keys = for {
       probableKeyLength <- probableKeyLengths(cyphertext).take(keyLengthsToTake)
-      cyphertexts = createSampledTexts(cyphertext, probableKeyLength.length)
-      _ = println(cyphertexts.mkString("\n"), "--")
-      possibleKey = cyphertexts.map(cyphertext => CaesarCypherBreaker(language).probableKeys(sampletext, cyphertext).head)
+      cyphertexts = createTextsForPeriod(cyphertext, probableKeyLength.length)
+      possibleKeys = cyphertexts.map(cyphertext => CaesarCypherBreaker(language).probableKeys(sampletext, cyphertext))
     } yield {
-      ProbableKey(VigenereCypherKey(possibleKey.map(_.key.offset).toList), possibleKey.map(_.distance).sum)
+      VigenereCypherBreaker.vigenereKeySeq(possibleKeys)
     }
 
-    keys.sortBy(_.distance)
+    //    println(keys)
+    keys.flatten.sortBy(_.distance)
+    val sampletextDistribution = FrequencyDistribution(language, sampletext)
+    keys
+      .flatten.map { k =>
+      val distribution = FrequencyDistribution(language, VigenereCypher(language, k.key).decypher(cyphertext))
+      (k, distribution.distance(sampletextDistribution))
+    }
+      .sortBy(_._2)
+      .map { case (k, d) =>
+        ProbableKey(k.key, d)
+      }
   }
 
   private def factors(n: Int): Set[Int] = {
@@ -58,7 +98,7 @@ class VigenereCypherBreaker(language: Language) extends CypherBreaker[VigenereCy
       .reverse
   }
 
-  private[internal] def createSampledTexts(text: String, step: Int): Seq[String] = {
+  private[internal] def createTextsForPeriod(text: String, step: Int): Seq[String] = {
     for {
       n <- 0 until step
     } yield {

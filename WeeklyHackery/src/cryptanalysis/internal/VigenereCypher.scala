@@ -15,9 +15,10 @@ object VigenereCypher {
 
 class VigenereCypher(language: Language, key: VigenereCypherKey) extends Cypher[VigenereCypherKey] {
 
-  override def encypher(plaintext: String): String = {
-    def cypherStream: Stream[CaesarCypher] = key.offsets.map(offset => CaesarCypher(language, CaesarCypherKey(offset))).toStream #::: cypherStream
+  private def cypherStream: Stream[CaesarCypher] =
+    key.offsets.map(offset => CaesarCypher(language, CaesarCypherKey(offset))).toStream #::: cypherStream
 
+  override def encypher(plaintext: String): String = {
     language.toLanguage(plaintext)
       .toStream
       .zip(cypherStream)
@@ -26,8 +27,6 @@ class VigenereCypher(language: Language, key: VigenereCypherKey) extends Cypher[
   }
 
   override def decypher(cyphertext: String): String = {
-    def cypherStream: Stream[CaesarCypher] = key.offsets.map(offset => CaesarCypher(language, CaesarCypherKey(offset))).toStream #::: cypherStream
-
     language.toLanguage(cyphertext)
       .toStream
       .zip(cypherStream)
