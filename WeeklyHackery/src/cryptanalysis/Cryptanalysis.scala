@@ -1,64 +1,38 @@
 package cryptanalysis
 
 import cryptanalysis.internal._
-import markvshaney.MarkVShaney.getClass
-
-import scala.io.Source
 
 object Cryptanalysis {
 
-//  private val plaintext = """This is some sample text that we're going to encrypt. Longer text will be more likely to be decoded correctly. Let's add a few more words to see if that works out a little better. Peter Piper picked a peck of pickled pepper."""
-//  private val plaintext = """yay! Successfully decoded, well done! now we can send sneaky messages in slack and nobody will be any the wiser hehehe i bet nobody else can read this now"""
-  private val plaintext = {
-    val inputStream = getClass.getResourceAsStream("/markvshaney/right-ho-jeeves.txt")
-    Source.fromInputStream(inputStream).getLines.mkString(" ").take(1000)
-  }
-
-//  private val sampletext = """This is a sample piece of the original language. It won't be the same as the plaintext but it should be similar enough. Let's add a few more words to see if that works out a little better. Peter Piper picked a peck of pickled pepper."""
-  private val sampletext = {
-    val inputStream = getClass.getResourceAsStream("/markvshaney/my-man-jeeves.txt")
-    Source.fromInputStream(inputStream).getLines.mkString(" ").take(1000)
-  }
+  private val language: Language = EnglishLanguage
+  private val plaintext = """This is some sample text that we're going to encrypt. Longer text will be more likely to be decoded correctly because the distributions of letters will average out."""
+  private val sampletext = """This is a sample piece of the original language. It won't be the same as the plaintext but it should be similar enough that the letter distributions end up somewhat close. Let's add a few more words just so we've got a good mix."""
 
   def main(args: Array[String]): Unit = {
-    //        testCaesarCypher()
-    testVigenereCypher()
+    println("CaesarCypher")
+    testCypher((k: CaesarCypherKey) => CaesarCypher(language, k), CaesarCypherKey(19), CaesarCypherBreaker(language))
+
+    println("VigenereCypher")
+    testCypher((k: VigenereCypherKey) => VigenereCypher(language, k), VigenereCypherKey(language, "recs"), VigenereCypherBreaker(language))
   }
 
-  private val language: Language = EnglishLanguage
-
-  private def testVigenereCypher(): Unit = {
-    val key = VigenereCypherKey(language, "rec")
-    println(key)
-    val cypher = VigenereCypher(language, key)
-
+  private def testCypher[C <: Cypher[K], K <: Key, B <: CypherBreaker[C, K]](cypherFactory: (K) => C, key: K, breaker: B): Unit = {
+    val cypher = cypherFactory(key)
     val cyphertext = cypher.encypher(plaintext)
-    println(cyphertext)
-    println(cypher.decypher(cyphertext))
 
-    val breaker = VigenereCypherBreaker(language)
-    for {
-      probableKey <- breaker.probableKeys(sampletext, cyphertext).take(100)
-      probablePlaintext = VigenereCypher(language, probableKey.key).decypher(cyphertext)
-    } yield {
-      println(s"${probableKey} : ${probablePlaintext}")
-    }
-  }
+    println(s"Key:        ${key}")
+    println(s"Plaintext:  ${plaintext}")
+    println(s"Encyphered: ${cyphertext}")
+    println(s"Decyphered: ${cypher.decypher(cyphertext)}")
+    println()
 
-  private def testCaesarCypher(): Unit = {
-    val key = CaesarCypherKey(19)
-    val cypher = CaesarCypher(language, key)
-
-    val cyphertext = cypher.encypher(plaintext)
-    println(cyphertext)
-    println(cypher.decypher(cyphertext))
-
-    val breaker = CaesarCypherBreaker(language)
+    println("Attempting to break")
     for {
       probableKey <- breaker.probableKeys(sampletext, cyphertext).take(3)
-      probablePlaintext = CaesarCypher(language, probableKey.key).decypher(cyphertext)
+      probablePlaintext = cypherFactory(probableKey.key).decypher(cyphertext)
     } yield {
-      println(s"${probableKey} : ${probablePlaintext}")
+      println(f"${probableKey.distance}%7.2f ${probableKey.key}%-40s : ${probablePlaintext}")
     }
+    println()
   }
 }

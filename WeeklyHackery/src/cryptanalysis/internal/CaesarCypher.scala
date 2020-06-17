@@ -30,8 +30,7 @@ class CaesarCypher(val language: Language,
     val size = language.Letters.size
 
     val letterMappings = language.Letters.zip(shifted.drop((offset + size) % size))
-    val punctuationMappings = language.Punctuation.zip(language.Punctuation)
 
-    (letterMappings ++ punctuationMappings).toMap
+    letterMappings.toMap
   }
 }

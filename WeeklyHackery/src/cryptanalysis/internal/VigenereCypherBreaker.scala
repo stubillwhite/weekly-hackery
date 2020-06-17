@@ -40,18 +40,23 @@ class VigenereCypherBreaker(language: Language) extends CypherBreaker[VigenereCy
 
   override def probableKeys(sampletext: String, cyphertext: String): Seq[ProbableKey[VigenereCypherKey]] = {
     val keyLengthsToTake = 4
-    println(s"Probable key lengths ${cyphertext.length}: ${probableKeyLengths(cyphertext).take(keyLengthsToTake)}")
+    val keyLengths = probableKeyLengths(cyphertext).take(keyLengthsToTake)
+
+    println(s"Probable key lengths:")
+    for {
+      probableKeyLength <- keyLengths
+    } yield {
+      println(s"  ${probableKeyLength.length} (${probableKeyLength.coincidences} coincidences)")
+    }
 
     val keys = for {
-      probableKeyLength <- probableKeyLengths(cyphertext).take(keyLengthsToTake)
+      probableKeyLength <- keyLengths
       cyphertexts = createTextsForPeriod(cyphertext, probableKeyLength.length)
       possibleKeys = cyphertexts.map(cyphertext => CaesarCypherBreaker(language).probableKeys(sampletext, cyphertext))
     } yield {
       VigenereCypherBreaker.vigenereKeySeq(possibleKeys)
     }
 
-    //    println(keys)
-    keys.flatten.sortBy(_.distance)
     val sampletextDistribution = FrequencyDistribution(language, sampletext)
     keys
       .flatten.map { k =>
