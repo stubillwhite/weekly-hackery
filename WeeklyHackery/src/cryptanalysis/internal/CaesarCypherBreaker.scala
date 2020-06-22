@@ -11,11 +11,15 @@ class CaesarCypherBreaker(language: Language) extends CypherBreaker[CaesarCypher
     val sampletextFrequencies = FrequencyDistribution(language, sampletext)
     val cyphertextFrequencies = FrequencyDistribution(language, cyphertext)
 
+    val languageSize = language.Letters.size
+
     val keys = for {
-      offset <- 0 to language.Letters.size
+      offset <- language.Letters.indices
       rotatedStats = cyphertextFrequencies.rotate(offset)
       distance = sampletextFrequencies.distance(rotatedStats)
-    } yield ProbableKey(CaesarCypherKey(language.Letters.size - offset), distance)
+    } yield {
+      ProbableKey(CaesarCypherKey((languageSize - offset) % languageSize), distance)
+    }
 
     keys.sortBy(_.distance)
   }

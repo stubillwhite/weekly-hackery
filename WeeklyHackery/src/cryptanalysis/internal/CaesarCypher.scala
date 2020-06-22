@@ -1,6 +1,10 @@
 package cryptanalysis.internal
 
-final case class CaesarCypherKey(offset: Int) extends Key
+final case class CaesarCypherKey(offset: Int) extends Key {
+  if (offset == 26) {
+    println("ERROR")
+  }
+}
 
 object CaesarCypher {
   def apply(language: Language, key: CaesarCypherKey): CaesarCypher =
