@@ -1,4 +1,7 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.vigenere
+
+import cryptanalysis.internal.caesar.{CaesarCypher, CaesarCypherKey}
+import cryptanalysis.internal.common.{Cypher, Key, Language}
 
 object VigenereCypherKey {
   def apply(language: Language, keyword: String): VigenereCypherKey = {
@@ -7,7 +10,7 @@ object VigenereCypherKey {
   }
 }
 
-case class VigenereCypherKey(offsets: Seq[Int]) extends Key
+final case class VigenereCypherKey(offsets: Seq[Int]) extends Key
 
 object VigenereCypher {
   def apply(language: Language, key: VigenereCypherKey): VigenereCypher = new VigenereCypher(language, key)

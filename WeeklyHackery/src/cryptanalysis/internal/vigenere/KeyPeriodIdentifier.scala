@@ -1,4 +1,7 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.vigenere
+
+import cryptanalysis.internal.caesar.FrequencyDistribution
+import cryptanalysis.internal.common.Language
 
 object KeyPeriodIdentifier {
   def apply(language: Language, maxKeyLength: Int): KeyPeriodIdentifier =
@@ -19,10 +22,6 @@ class KeyPeriodIdentifier(language: Language, maxKeyPeriod: Int) {
     val zero = Seq[(PossibleKeyPeriod, Double)]((possiblePeriods.head, 0.0))
 
     val periodsAndDelta = possiblePeriods.tail.foldLeft(zero)(op)
-
-//    println("Probable key lengths")
-//    println("  Length   IoC    Delta")
-//    periodsAndDelta.foreach { case (k, d) => println(f"    ${k.period}%-2s     ${k.indexOfCoincidence}%1.2f   ${d}%-1.2f")}
 
     periodsAndDelta.maxBy(_._2)._1.period
   }

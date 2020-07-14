@@ -1,10 +1,8 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.caesar
 
-final case class CaesarCypherKey(offset: Int) extends Key {
-  if (offset == 26) {
-    println("ERROR")
-  }
-}
+import cryptanalysis.internal.common.{Cypher, Key, Language}
+
+final case class CaesarCypherKey(offset: Int) extends Key
 
 object CaesarCypher {
   def apply(language: Language, key: CaesarCypherKey): CaesarCypher =

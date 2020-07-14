@@ -1,4 +1,6 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.caesar
+
+import cryptanalysis.internal.common.{CypherBreaker, Language, ProbableKey}
 
 object CaesarCypherBreaker {
   def apply(language: Language): CaesarCypherBreaker =

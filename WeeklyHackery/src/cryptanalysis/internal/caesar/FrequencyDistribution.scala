@@ -1,4 +1,6 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.caesar
+
+import cryptanalysis.internal.common.Language
 
 import scala.collection.immutable.SortedMap
 
@@ -44,8 +46,6 @@ class FrequencyDistribution(language: Language, frequencies: Map[Char, Int], rel
 
     new FrequencyDistribution(language, newFrequencies, newRelativeFrequencies)
   }
-
-  //  http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/
 
   def distance(other: FrequencyDistribution): Double = {
     val thisTotal = Frequencies.values.sum

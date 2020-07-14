@@ -1,4 +1,7 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.vigenere
+
+import cryptanalysis.internal.caesar.{CaesarCypherBreaker, CaesarCypherKey}
+import cryptanalysis.internal.common.{CypherBreaker, Language, ProbableKey}
 
 object VigenereCypherBreaker {
   def apply(language: Language): VigenereCypherBreaker = new VigenereCypherBreaker(language)

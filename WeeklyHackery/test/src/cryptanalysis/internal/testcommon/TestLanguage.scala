@@ -1,6 +1,6 @@
 package cryptanalysis.internal.testcommon
 
-import cryptanalysis.internal.Language
+import cryptanalysis.internal.common.Language
 
 object TestLanguage extends Language {
 

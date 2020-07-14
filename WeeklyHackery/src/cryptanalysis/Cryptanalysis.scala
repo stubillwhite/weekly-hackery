@@ -1,6 +1,9 @@
 package cryptanalysis
 
 import cryptanalysis.internal._
+import cryptanalysis.internal.caesar.{CaesarCypher, CaesarCypherBreaker, CaesarCypherKey}
+import cryptanalysis.internal.common.{Cypher, CypherBreaker, EnglishLanguage, Key, Language}
+import cryptanalysis.internal.vigenere.{VigenereCypher, VigenereCypherBreaker, VigenereCypherKey}
 
 object Cryptanalysis {
 
@@ -13,7 +16,7 @@ object Cryptanalysis {
     testCypher((k: CaesarCypherKey) => CaesarCypher(language, k), CaesarCypherKey(3), CaesarCypherBreaker(language))
 
     println("VigenereCypher")
-    testCypher((k: VigenereCypherKey) => VigenereCypher(language, k), VigenereCypherKey(language, "hulk"), VigenereCypherBreaker(language))
+    testCypher((k: VigenereCypherKey) => VigenereCypher(language, k), VigenereCypherKey(language, "unflex"), VigenereCypherBreaker(language))
   }
 
   private def testCypher[C <: Cypher[K], K <: Key, B <: CypherBreaker[C, K]](cypherFactory: (K) => C, key: K, breaker: B): Unit = {
@@ -27,7 +30,7 @@ object Cryptanalysis {
     println()
 
     println("Attempting to break")
-    val probableKeys = breaker.probableKeys(sampletext, cyphertext).take(10)
+    val probableKeys = breaker.probableKeys(sampletext, cyphertext).take(5)
     probableKeys.foreach { probableKey =>
       val probablePlaintext = cypherFactory(probableKey.key).decypher(cyphertext)
       println(f"${probableKey.distance}%7.2f ${probableKey.key}%-40s : ${probablePlaintext}")

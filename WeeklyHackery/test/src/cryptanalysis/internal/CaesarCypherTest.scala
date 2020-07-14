@@ -1,5 +1,7 @@
 package cryptanalysis.internal
 
+import cryptanalysis.internal.caesar.{CaesarCypher, CaesarCypherKey}
+import cryptanalysis.internal.common.{EnglishLanguage, Language}
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 

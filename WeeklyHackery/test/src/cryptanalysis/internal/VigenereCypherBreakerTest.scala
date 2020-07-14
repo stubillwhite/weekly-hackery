@@ -1,5 +1,8 @@
 package cryptanalysis.internal
 
+import cryptanalysis.internal.caesar.CaesarCypherKey
+import cryptanalysis.internal.common.ProbableKey
+import cryptanalysis.internal.vigenere.VigenereCypherKey
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 

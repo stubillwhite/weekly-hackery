@@ -1,4 +1,4 @@
-package cryptanalysis.internal
+package cryptanalysis.internal.common
 
 object EnglishLanguage extends Language {
   override val Letters: Seq[Char] =
